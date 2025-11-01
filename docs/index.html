@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DineOptix</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <!-- Верхняя панель навигации -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="logo">
+                <img src="do.svg" alt="SmartCanteen" width="32" height="32">
+                </div>
+                <h1 class="brand-name">DineOptix</h1>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#overview" class="nav-link active" data-page="overview">Обзор</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#menu" class="nav-link" data-page="menu">Меню</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#customers" class="nav-link" data-page="customers">Клиенты</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#forecasts" class="nav-link" data-page="forecasts">Прогнозы</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#ai" class="nav-link" data-page="ai">ИИ</a>
+                </li>
+            </ul>
+            
+            <div class="nav-controls">
+                <div class="analytics-manager">
+                <button class="analytics-button" id="analyticsButton">
+                    👤
+                </button>
+                <div class="analytics-sidebar hidden" id="analyticsSidebar">
+                    <!-- Шапка сайдбара -->
+                    <div class="sidebar-header">
+                    <div class="main-profile">
+                        <div class="profile-avatar">👤</div>
+                        <div class="profile-info">
+                        <div class="profile-name">Сеть "Вкусная Еда"</div>
+                        <div class="profile-status">Премиум • 3 точки</div>
+                        </div>
+                    </div>
+                    <button class="sidebar-close" id="sidebarClose">×</button>
+                    </div>
+
+                    <!-- Список точек -->
+                    <div class="locations-container">
+                    <div class="locations-header">
+                        <h4>Точки питания</h4>
+                        <span class="locations-count">3/5</span>
+                    </div>
+                    
+                    <div class="locations-list">
+                        <!-- Точки будут добавляться через JS -->
+                    </div>
+                    </div>
+
+                    <!-- Кнопка добавления новой точки -->
+                    <div class="add-location-section">
+                    <button class="add-location-btn" onclick="openAddLocationModal()">
+                        <span class="add-icon-point">+</span>
+                        Добавить точку
+                    </button>
+                    </div>
+
+                    <!-- Быстрые действия -->
+                    <div class="quick-actions">
+                        <div class="action-item" onclick="openSettings()">
+                            <span class="action-icon">⚙️</span>
+                            <span class="action-text">Настройки</span>
+                        </div>
+                        <div class="action-item" onclick="openNetworkAnalytics()">
+                            <span class="action-icon">📈</span>
+                            <span class="action-text">Сводная аналитика</span>
+                        </div>
+                        <div class="action-item" onclick="handleSidebarLogout()">
+                            <span class="action-icon">🚪</span>
+                            <span class="action-text">Выход</span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Оверлей для сайдбара -->
+                <div class="sidebar-overlay hidden" id="sidebarOverlay"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <!-- Страница Обзор -->
+        <section id="overview" class="page active">
+            <div class="page-header">
+                <h2>Обзор</h2>
+                <p>Ключевые показатели эффективности</p>
+            </div>
+            
+            <!-- Основные метрики -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">👥</div>
+                    <div class="metric-content">
+                        <h3 class="metric-value" data-value="1247">0</h3>
+                        <p class="metric-label">Всего посетителей</p>
+                        <span class="metric-change positive">+12%</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-content">
+                        <h3 class="metric-value" data-value="425000">0</h3>
+                        <p class="metric-label">Месячная выручка (₽)</p>
+                        <span class="metric-change positive">+8.5%</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">⭐</div>
+                    <div class="metric-content">
+                        <h3 class="metric-value" data-value="4.2">0</h3>
+                        <p class="metric-label">Удовлетворенность</p>
+                        <span class="metric-change positive">+0.3</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">📅</div>
+                    <div class="metric-content">
+                        <h3 class="metric-value" data-value="180">0</h3>
+                        <p class="metric-label">Средняя посещаемость в день</p>
+                        <span class="metric-change positive">+15</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Графики -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>Тепловая карта посещаемости</h3>
+                    <div class="chart-container" style="position: relative; height: 300px;">
+                        <canvas id="heatmapChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3>Топ-5 убыточных позиций</h3>
+                    <div class="chart-contain" style="position: relative; height: 300px;">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Топ блюд -->
+            <div class="top-dishes-card">
+                <h3>Топ-5 популярных блюд</h3>
+                <div class="dishes-list" id="topDishes"></div>
+            </div>
+        </section>
+
+        <!-- Страница Меню -->
+        <section id="menu" class="page">
+            <div class="page-header">
+                <h2>Меню</h2>
+                <p>Анализ блюд и их популярности</p>
+            </div>
+            
+            <div class="menu-filters">
+                <div class="filter-chips" id="categoryFilters"></div>
+                <button class="add-category-btn" onclick="openAddCategoryModal()">
+                    <span class="add-category-icon">+</span>
+                </button>
+            </div>
+            
+            <div class="menu-grid" id="menuGrid"></div>
+            
+            </div>
+        </section>
+
+        <!-- Страница Клиенты -->
+        <!-- ОБНОВЛЕННАЯ СТРАНИЦА КЛИЕНТОВ -->
+        <section id="customers" class="page">
+            <div class="page-header">
+                <h2>Клиенты</h2>
+                <p>Анализ клиентской базы и управление лояльностью</p>
+            </div>
+            
+            <!-- КЛЮЧЕВЫЕ МЕТРИКИ -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">👥</div>
+                    <div class="metric-content">
+                        <h3 class="metric-value" data-value="1247">0</h3>
+                        <p class="metric-label">Уникальных клиентов</p>
+                        <span class="metric-change positive">+8% за месяц</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-content">
+                        <h3 class="metric-value" data-value="320">0</h3>
+                        <p class="metric-label">Средний чек (₽)</p>
+                        <span class="metric-change positive">+5%</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">🔄</div>
+                    <div class="metric-content">
+                        <h3 class="metric-value" data-value="68">0</h3>
+                        <p class="metric-label">Повторные посещения (%)</p>
+                        <span class="metric-change negative">-3%</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">⭐</div>
+                    <div class="metric-content">
+                        <h3 class="metric-value" data-value="4.2">0</h3>
+                        <p class="metric-label">NPS (лояльность)</p>
+                        <span class="metric-change positive">+0.4</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- СЕГМЕНТАЦИЯ И ЦЕННОСТЬ -->
+            <div class="charts-grid">
+                <!-- Карта ценности клиентов -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Сегментация по ценности</h3>
+                        <div class="chart-legend">
+                            <span class="legend-item"><div class="legend-color vip"></div>VIP (15%)</span>
+                            <span class="legend-item"><div class="legend-color regular"></div>Постоянные (45%)</span>
+                            <span class="legend-item"><div class="legend-color new"></div>Новые (25%)</span>
+                            <span class="legend-item"><div class="legend-color at-risk"></div>Риск оттока (15%)</span>
+                        </div>
+                    </div>
+                    <div class="chart-container" style="position: relative; height: 300px;">
+                        <canvas id="valueSegmentationChart"></canvas>
+                    </div>
+                    <div class="chart-insights">
+                        <div class="insight-item">
+                            <span class="insight-badge recommendation">Рекомендация</span>
+                            <strong>VIP клиенты</strong> приносят 45% выручки - усильте программу лояльности
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Динамика клиентской базы -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                    <h3>Динамика клиентской базы</h3>
+                    <div class="period-selector">
+                        <button class="period-btn active" data-period="30">30 дней</button>
+                        <button class="period-btn" data-period="90">90 дней</button>
+                        <button class="period-btn" data-period="365">Год</button>
+                    </div>
+                    </div>
+                    <div class="chart-container" style="position: relative; height: 300px;">
+                        <canvas id="customerDynamicsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПОВЕДЕНЧЕСКИЙ АНАЛИЗ -->
+        <div class="charts-grid">
+            <!-- Паттерны посещений - теперь занимает всю ширину -->
+            <div class="chart-card" style="grid-column: 1 / -1;">
+                <h3>Паттерны посещений по отделам</h3>
+                <div class="behavior-patterns">
+                    <!-- Данные будут вставлены через JavaScript -->
+                </div>
+            </div>
+        </div>
+        </section>
+    
+        <!-- Страница Прогнозы -->
+        <section id="forecasts" class="page">
+            <div class="page-header">
+                <h2>Прогнозы</h2>
+                <p>Рекомендации по производству и закупкам</p>
+            </div>
+    
+            <!-- Дата выбора -->
+            <div class="date-selector">
+                <label for="planningDate">Дата планирования:</label>
+                <input type="date" id="planningDate">
+                <button class="update-forecast-btn" onclick="generateForecast()">
+                    🔄 Обновить прогноз
+                </button>
+            </div>
+            
+            <!-- Основные метрики прогноза -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">👥</div>
+                    <div class="metric-content">
+                        <h3 class="metric-value" data-value="185">0</h3>
+                        <p class="metric-label">Ожидаемое количество посетителей</p>
+                        <span class="metric-change positive">+12% к среднему</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-content">
+                        <h3 class="metric-value" data-value="59200">0</h3>
+                        <p class="metric-label">Прогноз выручки (₽)</p>
+                        <span class="metric-change positive">+8%</span>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">👨‍🍳</div>
+                    <div class="metric-content">
+                        <h3 class="metric-value" data-value="3">0</h3>
+                        <p class="metric-label">Рекомендуемое число поваров</p>
+                        <div class="peak-time-badge">пик: 11:30-13:30</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Прогноз загрузки по часам -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>📊 Прогноз загрузки по часам</h3>
+                    <div class="hourly-forecast">
+                        <div class="hour-slot">
+                            <span class="hour">11:00-12:00</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                            <span class="count">~45 чел</span>
+                        </div>
+                        <div class="hour-slot peak">
+                            <span class="hour">12:00-13:00</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 95%"></div>
+                            </div>
+                            <span class="count">~85 чел</span>
+                        </div>
+                        <div class="hour-slot">
+                            <span class="hour">13:00-14:00</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%"></div>
+                            </div>
+                            <span class="count">~55 чел</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- План производства -->
+                <div class="chart-card">
+                    <h3>🍽️ План производства</h3>
+                    <div class="production-plan">
+                        <div class="plan-item">
+                            <span class="dish-name">Борщ</span>
+                            <span class="dish-quantity">35 порций</span>
+                            <span class="dish-trend positive">+5</span>
+                        </div>
+                        <div class="plan-item">
+                            <span class="dish-name">Куриная котлета</span>
+                            <span class="dish-quantity">28 порций</span>
+                            <span class="dish-trend positive">+3</span>
+                        </div>
+                        <div class="plan-item">
+                            <span class="dish-name">Салат Оливье</span>
+                            <span class="dish-quantity">22 порции</span>
+                            <span class="dish-trend negative">-2</span>
+                        </div>
+                        <div class="plan-item">
+                            <span class="dish-name">Плов узбекский</span>
+                            <span class="dish-quantity">18 порций</span>
+                            <span class="dish-trend positive">+4</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Рекомендации по закупкам -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>🛒 Рекомендации по закупкам</h3>
+                    <div class="purchasing-list">
+                        <div class="purchase-item">
+                            <span class="ingredient">Куриное филе</span>
+                            <span class="quantity">12 кг</span>
+                            <span class="change positive">+15%</span>
+                        </div>
+                        <div class="purchase-item">
+                            <span class="ingredient">Картофель</span>
+                            <span class="quantity">25 кг</span>
+                            <span class="change negative">-8%</span>
+                        </div>
+                        <div class="purchase-item">
+                            <span class="ingredient">Свекла</span>
+                            <span class="quantity">8 кг</span>
+                            <span class="change positive">+12%</span>
+                        </div>
+                        <div class="purchase-item">
+                            <span class="ingredient">Салат Айсберг</span>
+                            <span class="quantity">3 кг</span>
+                            <span class="change positive">+20%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Риски и рекомендации -->
+                <div class="chart-card">
+                    <h3>⚠️ Риски и рекомендации</h3>
+                    <div class="risk-alerts">
+                        <div class="alert-item warning">
+                            <span class="alert-icon">🔺</span>
+                            <div class="alert-content">
+                                <strong>Высокий спрос на курицу</strong>
+                                <p>Рекомендуем увеличить запас на 15%</p>
+                            </div>
+                        </div>
+                        <div class="alert-item info">
+                            <span class="alert-icon">📊</span>
+                            <div class="alert-content">
+                                <strong>Пиковая нагрузка: 12:00-13:00</strong>
+                                <p>Подготовить дополнительного кассира</p>
+                            </div>
+                        </div>
+                        <div class="alert-item success">
+                            <span class="alert-icon">💰</span>
+                            <div class="alert-content">
+                                <strong>Оптимальная цена на картофель</strong>
+                                <p>Текущий поставщик предлагает скидку 5%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Страница ИИ -->
+        <section id="ai" class="page">
+            <div class="page-header">
+                <h2>ИИ-помощник</h2>
+                <p>Умные рекомендации и инсайты</p>
+            </div>
+            
+            <div class="ai-insights" id="aiInsights"></div>
+            
+            <div class="chat-interface">
+                <div class="chat-header">
+                    <h3>Чат с ИИ-аналитиком</h3>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai-message">
+                        <div class="message-content">
+                            Привет! Я ваш ИИ-аналитик. Задайте мне вопрос о работе столовой, и я дам рекомендации.
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Задайте вопрос...">
+                    <button id="sendMessage">Отправить</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Страница Настройки -->
+        <section id="settings" class="page">
+            <div class="page-header">
+                <h2>Настройки</h2>
+                <p>Настройка системы и уведомлений</p>
+            </div>
+            
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <h3>Уведомления</h3>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" checked> Уведомления о низких остатках
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" checked> Еженедельные отчеты
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox"> SMS-уведомления
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <h3>Внешний вид</h3>
+                    <div class="setting-item">
+                        <label class="theme-toggle-label">
+                        <input type="checkbox" id="themeToggleSetting">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-text">Темная тема</span>
+                        </label>
+                    </div>
+                    <div class="setting-description">
+                        Переключение между светлой и темной темой интерфейса
+                    </div>
+                    </div>
+
+                <div class="settings-card">
+                    <h3>Импорт меню</h3>
+                        <button class="btn btn--primary">Импорт Excel</button>
+                        <button class="btn btn--secondary">Импорт CSV</button>
+                        <button class="btn btn--outline">Импорт PDF</button>
+                </div>
+
+                <div class="settings-card">
+                    <h3>Импорт данных</h3>
+                        <button class="btn btn--primary">Импорт Excel</button>
+                        <button class="btn btn--secondary">Импорт CSV</button>
+                </div>
+  
+                <div class="settings-card">
+                    <h3>Экспорт данных</h3>
+                        <button class="btn btn--primary">Экспорт меню Excel</button>
+                        <button class="btn btn--secondary">Экспорт меню CSV</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Страница Профиль -->
+        <section id="profile" class="page">
+            <div class="page-header">
+                <h2>Профиль</h2>
+                <p>Настройки профиля пользователя</p>
+            </div>
+            
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <h3>Личная информация</h3>
+                    <div class="setting-item">
+                        <label>Имя пользователя</label>
+                        <input type="text" class="form-control" value="Администратор">
+                    </div>
+                    <div class="setting-item">
+                        <label>Email</label>
+                        <input type="email" class="form-control" value="admin@smartcanteen.ru">
+                    </div>
+                    <div class="setting-item">
+                        <label>Роль</label>
+                        <input type="text" class="form-control" value="Администратор системы" readonly>
+                    </div>
+                </div>
+                
+                <div class="settings-card">
+                    <h3>Безопасность</h3>
+                    <button class="btn btn--primary">Изменить пароль</button>
+                    <button class="btn btn--secondary">Настроить 2FA</button>
+                    <button class="btn btn--outline">История входов</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Модальное окно для деталей блюда -->
+    <div id="dishModal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalDishName">Название блюда</h3>
+                <button class="modal-close" id="closeModal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="dish-details" id="dishDetails"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Модальное окно аутентификации -->
+    <div id="authModal" class="modal hidden">
+    <div class="modal-backdrop" onclick="closeAuthModal()"></div>
+    <div class="modal-content auth-modal-content">
+        <div class="modal-header">
+        <h3>Вход в DineOptix</h3>
+        <button class="modal-close" onclick="closeAuthModal()">×</button>
+        </div>
+        <div class="modal-body">
+        <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">Вход</button>
+            <button class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">Регистрация</button>
+        </div>
+        
+        <form id="loginForm" class="auth-form active">
+            <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" id="loginEmail" required>
+            </div>
+            <div class="form-group">
+            <label class="form-label">Пароль</label>
+            <input type="password" class="form-control" id="loginPassword" required>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full-width">Войти</button>
+        </form>
+        
+        <form id="registerForm" class="auth-form">
+            <div class="form-group">
+            <label class="form-label">Название столовой</label>
+            <input type="text" class="form-control" id="registerCanteenName" required>
+            </div>
+            <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" id="registerEmail" required>
+            </div>
+            <div class="form-group">
+            <label class="form-label">Пароль</label>
+            <input type="password" class="form-control" id="registerPassword" required>
+            </div>
+            <div class="form-group">
+            <label class="form-label">Тип подписки</label>
+            <select class="form-control" id="subscriptionType">
+                <option value="starter">Стартовый (бесплатно)</option>
+                <option value="pro">Профессиональный</option>
+                <option value="enterprise">Для предприятий</option>
+            </select>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full-width">Зарегистрироваться</button>
+        </form>
+        </div>
+    </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
